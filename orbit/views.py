@@ -1,9 +1,7 @@
-from calendar import month
-
-from django.shortcuts import render
-from unicodedata import category
+from django.shortcuts import render,redirect
 
 from .models import About, Category, Portfolio, Service, Education, HappyClients, WorkExperience
+from .forms import Contact, ContactForm
 
 
 def index(request):
@@ -14,6 +12,10 @@ def index(request):
     education=Education.objects.all()
     happy=HappyClients.objects.all()
     work=WorkExperience.objects.all()
+    contact=ContactForm(request.POST or None)
+    if contact.is_valid():
+        contact.save()
+        return redirect("/")
     ctx={
         'about':about,
         'portfolios':portfolio,
@@ -22,5 +24,6 @@ def index(request):
         'education':education,
         'happy':happy,
         'work':work,
+        'form':contact
     }
     return render(request,'index.html',ctx)

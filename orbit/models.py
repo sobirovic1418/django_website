@@ -81,5 +81,16 @@ class HappyClients(models.Model):
         return self.full_name
 
 
+class Contact(models.Model):
+    first_name=models.CharField(max_length=202)
+    last_name=models.CharField(max_length=202)
+    email=models.EmailField()
+    message=models.TextField()
 
+    is_published=models.BooleanField(default=False)
 
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.first_name},{self.last_name}"
